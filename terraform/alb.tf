@@ -35,7 +35,7 @@ resource "aws_lb_listener" "alb_http" {
 
 
 resource "aws_lb_target_group" "crud_lambda_tg" {
-  name        = "crud_lambda_tg"
+  name        = "crudlambdatg"
   target_type = "lambda"
 
   protocol = "HTTP"
