@@ -1,45 +1,8 @@
 name: Deploy Application Workflow
 on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      # Clone the repo
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      # Cache node modules
-      - name: Cache node modules
-        uses: actions/cache@v3  
-        with:
-          path: ./backend/node_modules
-          key: yarn-deps-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            yarn-deps-${{ hashFiles('yarn.lock') }}
-
-      # - name: Install React App dependencies
-      #   run: yarn install 
-      #   working-directory: ./backend     
-
-      # # Test the React app
-      # - name: Test static build
-      #   run: yarn test 
-      #   working-directory: ./backend    
-      # # Build the React app
-      # - name: Create React Application
-      #   run: yarn build && pwd && ls -altr 
-      #   working-directory: ./backend
-
-      # Upload the artifact for other stages to use
-      - name: Share artifact in github workflow
-        uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: backend/build   
-
   should_deploy_backend:
     runs-on: ubuntu-latest
-    needs: build
     environment:
       name: dissertation-backend
     steps:
