@@ -17,18 +17,18 @@ jobs:
           restore-keys: |
             yarn-deps-${{ hashFiles('yarn.lock') }}
 
-      - name: Install React App dependencies
-        run: yarn install 
-        working-directory: ./backend     
+      # - name: Install React App dependencies
+      #   run: yarn install 
+      #   working-directory: ./backend     
 
       # Test the React app
-      # - name: Test static build
-      #   run: yarn test 
-      #   working-directory: ./backend    
+       - name: Test static build
+         run: yarn test 
+         working-directory: ./backend    
       # # Build the React app
-      - name: Create React Application
-        run: yarn build && pwd && ls -altr 
-        working-directory: ./backend
+      # - name: Create React Application
+      #   run: yarn build && pwd && ls -altr 
+      #   working-directory: ./backend
 
       # Upload the artifact for other stages to use
       - name: Share artifact in github workflow
