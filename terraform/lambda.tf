@@ -33,12 +33,6 @@ resource "aws_lambda_function" "crud_lambda_function" {
   timeout = 90
 }
 
-resource "aws_cloudwatch_log_group" "crud_lambda_function" {
-  name = "/aws/lambda/${aws_lambda_function.crud_lambda_function.function_name}"
-
-  retention_in_days = 30
-}
-
 resource "aws_iam_role_policy" "crud_lambda_policy" {
   name = "crud_lambda_policy"
   role = aws_iam_role.crud_lambda_exec.id
