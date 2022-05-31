@@ -54,6 +54,6 @@ resource "aws_lb_target_group" "crud_lambda_tg" {
 resource "aws_lb_target_group_attachment" "crud_lambda_tg" {
   target_group_arn = aws_lb_target_group.crud_lambda_tg.arn
   target_id        = aws_lambda_function.crud_lambda_function.arn
-  depends_on       = [aws_lambda_permission.with_lb_hello_world_1, aws_lb_target_group.crud_lambda_tg]
+  depends_on       = [aws_lambda_permission.with_lb_crud_lambda, aws_lb_target_group.crud_lambda_tg]
 }
 
