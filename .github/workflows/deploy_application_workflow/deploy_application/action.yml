@@ -64,10 +64,6 @@ runs:
           pip install boto3 
         shell: bash
 
-      - name: Invalidate Cloudfront Distribution  
-        run: CHOOSEN_AWS_REGION=${{ inputs.aws_region }} AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} python3 scripts/invalidate_cloudfront_distribution.py
-        shell: bash
-
       - name: Update Canary Lambda
         run: |
           zip -j canaryLambda.zip terraform/canaryLambda/* #--> Zip the Code As we know lambda function accept the zip file.
