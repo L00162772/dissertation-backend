@@ -1,7 +1,7 @@
 data "archive_file" "crud_lambda_function" {
   type = "zip"
 
-  source_dir  = "${path.module}/../backend/crud"
+  source_dir  = "${path.module}/../backend"
   output_path = "${path.module}/../backend/crud-lambda.zip"
 }
 
