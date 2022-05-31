@@ -1,0 +1,55 @@
+name: Terraform Destroy
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: true
+        type: string
+      TF_API_TOKEN:
+        required: true
+        type: string
+      AWS_ACCESS_KEY_ID:
+        required: true
+        type: string  
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+        type: string    
+runs:
+  using: "composite"
+  steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Replace AWS Region
+        run: |
+            sed -i 's/###AWS_REGION###/${{ inputs.aws_region }}/g' terraform/variables.tf
+            sed -i 's/###TERRAFORM_CLOUD_WORKSPACE###/backend-${{ inputs.aws_region }}/g' terraform/providers.tf
+        shell: bash
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ inputs.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: cd terraform && terraform init
+        shell: bash
+
+      - name: Terraform Destroy
+        run: cd terraform && terraform destroy -auto-approve  
+        shell: bash 
+         
+      - uses: ./.github/workflows/destroy_application_workflow/destroy_route53
+        with:
+          aws_region: ${{ matrix.aws_region }}      
+          AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}  
+
+      - uses: ./.github/workflows/destroy_application_workflow/destroy_global_accelerator
+        with:
+          aws_region: ${{ matrix.aws_region }}      
+          AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}    
+
+                      

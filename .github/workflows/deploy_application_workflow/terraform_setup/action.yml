@@ -1,0 +1,82 @@
+name: Terraform Setup
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: true
+        type: string
+      TF_API_TOKEN:
+        required: true
+        type: string
+      GITHUB_TOKEN:
+        required: true
+        type: string        
+runs:
+  using: "composite"
+  steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Replace AWS Region
+        run: |
+            sed -i 's/###AWS_REGION###/${{ inputs.aws_region }}/g' terraform/variables.tf
+            sed -i 's/###TERRAFORM_CLOUD_WORKSPACE###/backend-${{ inputs.aws_region }}/g' terraform/providers.tf
+        shell: bash
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ inputs.TF_API_TOKEN }}
+
+      - name: Terraform Format
+        id: fmt
+        run: cd terraform && terraform fmt -recursive -check
+        shell: bash
+
+      - name: Terraform Init
+        id: init
+        run: cd terraform && terraform init
+        shell: bash
+
+      - name: Terraform Validate
+        id: validate
+        run: cd terraform && terraform validate -no-color
+        shell: bash
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: cd terraform && terraform plan -no-color
+        continue-on-error: true
+        shell: bash
+
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ inputs.GITHUB_TOKEN }}
+          script: |
+            cd terraform &&
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            </details>
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: cd terraform && exit 1
+        shell: bash
+  
