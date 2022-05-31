@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
       case "DELETE /users/{id}":
         await dynamo
           .delete({
-            TableName: "http-crud-tutorial-users",
+            TableName: "users",
             Key: {
               id: event.pathParameters.id
             }
@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
       case "GET /users/{id}":
         body = await dynamo
           .get({
-            TableName: "http-crud-tutorial-users",
+            TableName: "users",
             Key: {
               id: event.pathParameters.id
             }
@@ -36,13 +36,13 @@ exports.handler = async (event, context) => {
           .promise();
         break;
       case "GET /users":
-        body = await dynamo.scan({ TableName: "http-crud-tutorial-users" }).promise();
+        body = await dynamo.scan({ TableName: "users" }).promise();
         break;
       case "PUT /users":
         let requestJSON = JSON.parse(event.body);
         await dynamo
           .put({
-            TableName: "http-crud-tutorial-users",
+            TableName: "users",
             Item: {
               id: requestJSON.id,
               price: requestJSON.price,
