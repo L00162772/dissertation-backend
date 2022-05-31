@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Read /> with no props should match the snapshot 1`] = `"<div><table class=\\"ui celled table\\"><thead class=\\"\\"><tr class=\\"\\"><th class=\\"\\">First Name</th><th class=\\"\\">Last Name</th><th class=\\"\\">Checkbox Value</th><th class=\\"\\">Update</th><th class=\\"\\">Delete</th></tr></thead><tbody class=\\"\\"></tbody></table></div>"`;
