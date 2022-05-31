@@ -1,8 +1,8 @@
 data "archive_file" "crud_lambda_function" {
   type = "zip"
 
-  source_dir  = "${path.module}/../backend/"
-  output_path = "${path.module}/../backendOutput/crud-lambda.zip"
+  source_dir  = "../backend/"
+  output_path = "../backendOutput/crud-lambda.zip"
 }
 
 resource "aws_s3_object" "crud_lambda_function" {
