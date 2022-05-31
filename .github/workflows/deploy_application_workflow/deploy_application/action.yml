@@ -39,8 +39,8 @@ runs:
 
       - name: Update Crud Lambda
         run: |
-          zip -j crudLambda.zip backend/* #--> Zip the Code As we know lambda function accept the zip file.
-          aws lambda update-function-code --function-name=backend-lambda --zip-file=fileb://crudLambda.zip 
+          zip -j crudLambda.zip terraform/backend/* #--> Zip the Code As we know lambda function accept the zip file.
+          aws lambda update-function-code --function-name=backend_lambda --zip-file=fileb://crudLambda.zip 
         shell: bash  
 
       - name: Update Canary Lambda
