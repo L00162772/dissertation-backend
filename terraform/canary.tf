@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "canary_role" {
-  name = "${var.aws_region}-canary_role"
+  name = "${var.aws_region}-${var.application_type}-canary_role"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -146,7 +146,7 @@ resource "aws_cloudwatch_event_target" "canary-failed-event-target" {
 
 
 resource "aws_iam_role" "canary_lambda_role" {
-  name               = "${var.aws_region}-canary-lambda-role"
+  name               = "${var.aws_region}-${var.application_type}-canary-lambda-role"
   assume_role_policy = <<EOF
 {
  "Version": "2012-10-17",
@@ -166,7 +166,7 @@ EOF
 
 resource "aws_iam_policy" "canary_iam_policy_for_lambda" {
 
-  name        = "${var.aws_region}_terraform_aws_lambda_role"
+  name        = "${var.aws_region}_${var.application_type}_terraform_aws_lambda_role"
   path        = "/"
   description = "AWS IAM Policy for managing aws lambda role"
   policy      = <<EOF

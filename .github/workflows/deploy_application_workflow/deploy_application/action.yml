@@ -64,6 +64,12 @@ runs:
           pip install boto3 
         shell: bash
 
+      - name: Update Crud Lambda
+        run: |
+          zip -j crudLambda.zip backend/* #--> Zip the Code As we know lambda function accept the zip file.
+          aws lambda update-function-code --function-name=backend-lambda --zip-file=fileb://crudLambda.zip 
+        shell: bash  
+
       - name: Update Canary Lambda
         run: |
           zip -j canaryLambda.zip terraform/canaryLambda/* #--> Zip the Code As we know lambda function accept the zip file.
