@@ -12,6 +12,9 @@ resource "aws_s3_object" "crud_lambda_function" {
   source = data.archive_file.crud_lambda_function.output_path
 
   etag = filemd5(data.archive_file.crud_lambda_function.output_path)
+  depends_on = [
+    data.archive_file.crud_lambda_function
+  ]
 }
 
 resource "aws_lambda_function" "crud_lambda_function" {
