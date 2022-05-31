@@ -3,8 +3,8 @@ on: [push]
 jobs:
   should_deploy_backend:
     runs-on: ubuntu-latest
-    # environment:
-    #   name: dissertation-backend
+    environment:
+       name: dissertation-backend
     steps:
       - name: Should deploy backend?
         run: echo "Should deploy backend?"
