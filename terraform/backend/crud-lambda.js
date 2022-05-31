@@ -11,9 +11,12 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    const routeKey = event.httpMethod + ' ' + event.resource
+    const routeKey = event.httpMethod + ' ' + event.path
     console.log("routeKey:", routeKey)
-    switch (routeKey) {      
+    switch (routeKey) { 
+      case "GET /health":
+        body = "Success";
+        break;           
       case "DELETE /users/{id}":
         await dynamo
           .delete({
