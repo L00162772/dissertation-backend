@@ -98,26 +98,13 @@ if not has_application_type_tag:
     global_accelerator_dns_name = accelerator_dns
     print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
 
-    list_resource_record_sets_response = route53_client.list_resource_record_sets(HostedZoneId='Z06036061DECQ0R1XX3ZG')
-    print(f"list_resource_record_sets_response:{list_resource_record_sets_response}")
-    already_contains_record_set = False
-    for resource_record_set in list_resource_record_sets_response['ResourceRecordSets']:
-        print(f"resource_record_set:{resource_record_set}")
-        resource_record_set_name = resource_record_set['Name']
-        print(f"resource_record_set_name:{resource_record_set_name}")
 
-        if resource_record_set_name.lower().startswith(application_type_dns_name.lower()):
-            print("Already contains record set")
-            already_contains_record_set = True
-            break
-
-    if not already_contains_record_set:
-        change_resource_record_sets_response = route53_client.change_resource_record_sets(
+    change_resource_record_sets_response = route53_client.change_resource_record_sets(
             HostedZoneId=hosted_zone_id,
             ChangeBatch={
                 'Changes': [
                     {
-                        'Action': 'CREATE',
+                        'Action': 'UPSERT',
                         'ResourceRecordSet': {
                             'Name': application_type_dns_name,
                             'Type': 'A',
@@ -133,7 +120,7 @@ if not has_application_type_tag:
                 ]
             }
         )
-        print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
+    print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
 
 
 list_listeners_response = client.list_listeners( AcceleratorArn=accelerator_arn)
