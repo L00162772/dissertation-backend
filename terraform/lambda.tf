@@ -41,8 +41,9 @@ resource "aws_iam_role_policy" "crud_lambda_policy" {
 }
 
 
+
 resource "aws_iam_role" "crud_lambda_exec" {
-  name               = "${var.application_type}_crud_lambda_exec_role"
+  name               = "${var.aws_region}_${var.application_type}_crud_lambda_exec_role"
   assume_role_policy = file("policies/assume_role_policy.json")
 }
 resource "aws_iam_role_policy_attachment" "crud_lambda_exec_attacment" {
