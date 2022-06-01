@@ -9,6 +9,7 @@ application_type = os.environ['APPLICATION_TYPE']
 global_accelerator_region = "us-west-2"
 base_route53_region = "us-east-1"
 base_application_dns = "atu-dissertation.com."
+route53_hosted_zone_id = 'Z2BJ6XQ5FK7U4H'
 
 print("In setup global accelerator")
 
@@ -97,9 +98,13 @@ if not has_application_type_tag:
     global_accelerator_dns_name = accelerator_dns
     print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
 
-    alb_dns_name = f'{aws_region}-alb-{application_type}.atu-dissertation.com'
-    print(f"alb_dns_name:{alb_dns_name}")
+    list_resource_record_sets_response = route53_client.list_resource_record_sets(HostedZoneId=route53_hosted_zone_id)
+    print(f"list_resource_record_sets_response:{list_resource_record_sets_response}")
     
+    record_set_already_exists = False
+    for resource_record_set in list_resource_record_sets_response['ResourceRecordSets']:
+        print(f"resource_record_set:{resource_record_set}")
+        
     change_resource_record_sets_response = route53_client.change_resource_record_sets(
         HostedZoneId=hosted_zone_id,
         ChangeBatch={
@@ -112,7 +117,7 @@ if not has_application_type_tag:
                         'SetIdentifier': 'Simple',
                         'Region': 'us-east-1',
                         'AliasTarget': {
-                            'HostedZoneId': 'Z2BJ6XQ5FK7U4H',
+                            'HostedZoneId': route53_hosted_zone_id,
                             'DNSName': global_accelerator_dns_name,
                             'EvaluateTargetHealth': True
                         }
