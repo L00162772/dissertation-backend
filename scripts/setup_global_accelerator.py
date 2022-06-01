@@ -98,7 +98,6 @@ if not has_application_type_tag:
     global_accelerator_dns_name = accelerator_dns
     print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
 
-
     change_resource_record_sets_response = route53_client.change_resource_record_sets(
             HostedZoneId=hosted_zone_id,
             ChangeBatch={
