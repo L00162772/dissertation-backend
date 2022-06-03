@@ -132,8 +132,8 @@ if len(list_listeners_response['Listeners']) <= 0:
         AcceleratorArn=accelerator_arn,
         PortRanges=[
             {
-                'FromPort': 80,
-                'ToPort': 80
+                'FromPort': 443,
+                'ToPort': 443
             },
         ],
         Protocol='TCP',
