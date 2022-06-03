@@ -61,6 +61,7 @@ exports.handler = async (event, context) => {
           .put({
             TableName: "users",
             Item: {
+              phoneNumber: requestPOSTJSON.phoneNumber,
               firstName: requestPOSTJSON.firstName,
               lastName: requestPOSTJSON.lastName
             }
@@ -74,6 +75,7 @@ exports.handler = async (event, context) => {
             .put({
               TableName: "users",
               Item: {
+                phoneNumber: requestPOSTJSON.phoneNumber,
                 firstName: requestPUTJSON.firstName,
                 lastName: requestPUTJSON.lastName
               }
