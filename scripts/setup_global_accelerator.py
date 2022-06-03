@@ -53,6 +53,7 @@ for accelerator in list_accelerators_response['Accelerators']:
             accelerator_arn = temp_accelerator_arn
             accelerator_dns = accelerator['DnsName']
             print(f"accelerator_dns: {accelerator_dns}")
+            break
 
         print(f"has_application_type_tag: {has_application_type_tag}")
 
@@ -95,10 +96,10 @@ if not has_application_type_tag:
     application_type_dns_name = f'{application_type}.atu-dissertation.com'
     print(f"application_type_dns_name:{application_type_dns_name}")
 
-    global_accelerator_dns_name = accelerator_dns
-    print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
 
-    change_resource_record_sets_response = route53_client.change_resource_record_sets(
+global_accelerator_dns_name = accelerator_dns
+print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
+change_resource_record_sets_response = route53_client.change_resource_record_sets(
             HostedZoneId=hosted_zone_id,
             ChangeBatch={
                 'Changes': [
@@ -118,8 +119,8 @@ if not has_application_type_tag:
                     }, 
                 ]
             }
-        )
-    print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
+    )
+print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")a
 
 
 list_listeners_response = client.list_listeners( AcceleratorArn=accelerator_arn)
