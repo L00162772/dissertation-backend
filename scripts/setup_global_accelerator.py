@@ -120,7 +120,7 @@ change_resource_record_sets_response = route53_client.change_resource_record_set
                 ]
             }
     )
-print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")a
+print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
 
 
 list_listeners_response = client.list_listeners( AcceleratorArn=accelerator_arn)
