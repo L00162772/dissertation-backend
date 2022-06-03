@@ -79,23 +79,23 @@ if not has_application_type_tag:
     accelerator_dns = create_accelerator_response['Accelerator']['DnsName']
     print(f"accelerator_dns: {accelerator_dns}")
     
-    hosted_zones_response = route53_client.list_hosted_zones()
-    print(f"hosted_zones_response: {hosted_zones_response}")
-    hosted_zone_id = ''
-    for hosted_zone in hosted_zones_response['HostedZones']:
-        print(f"hosted_zone: {hosted_zone}")
-        if hosted_zone['Name'].lower() == base_application_dns:
-            hosted_zone_id = hosted_zone['Id']
-            break
+    
+hosted_zones_response = route53_client.list_hosted_zones()
+print(f"hosted_zones_response: {hosted_zones_response}")
+hosted_zone_id = ''
+for hosted_zone in hosted_zones_response['HostedZones']:
+    print(f"hosted_zone: {hosted_zone}")
+    if hosted_zone['Name'].lower() == base_application_dns:
+        hosted_zone_id = hosted_zone['Id']
+        break
 
-    print(f"hosted_zone_id 1:{hosted_zone_id}")
-    hosted_zone_str = '/hostedzone/'
-    hosted_zone_id = hosted_zone_id[len(hosted_zone_str):]
-    print(f"hosted_zone_id 2:{hosted_zone_id}")
+print(f"hosted_zone_id 1:{hosted_zone_id}")
+hosted_zone_str = '/hostedzone/'
+hosted_zone_id = hosted_zone_id[len(hosted_zone_str):]
+print(f"hosted_zone_id 2:{hosted_zone_id}")
 
-    application_type_dns_name = f'{application_type}.atu-dissertation.com'
-    print(f"application_type_dns_name:{application_type_dns_name}")
-
+application_type_dns_name = f'{application_type}.atu-dissertation.com'
+print(f"application_type_dns_name:{application_type_dns_name}")
 
 global_accelerator_dns_name = accelerator_dns
 print(f"global_accelerator_dns_name:{global_accelerator_dns_name}")
