@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "crud_lambda_tg" {
     port     = 80
     protocol = "HTTP"
     timeout  = 20
-    interval = 5
+    interval = 30
   }
 }
 
