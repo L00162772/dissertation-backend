@@ -65,10 +65,11 @@ resource "aws_lb_target_group" "crud_lambda_tg" {
 
 
   health_check {
+    path     = "/health"
     port     = 80
     protocol = "HTTP"
-    timeout  = 5
-    interval = 10
+    timeout  = 20
+    interval = 5
   }
 }
 

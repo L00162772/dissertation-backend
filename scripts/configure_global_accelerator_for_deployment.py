@@ -89,7 +89,7 @@ if add_accelerator_for_region.lower() == "true":
         ],
         HealthCheckPort=80,
         HealthCheckProtocol='HTTP',
-        HealthCheckPath='/index.html',
+        HealthCheckPath='/health',
         HealthCheckIntervalSeconds=10,
         ThresholdCount=3,
         IdempotencyToken='string',

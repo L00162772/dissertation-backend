@@ -18,7 +18,7 @@ resource "aws_s3_object" "crud_lambda_function" {
 }
 
 resource "aws_lambda_function" "crud_lambda_function" {
-  function_name = "${var.application_type}_lambda"
+  function_name = "${var.application_type}_crud_lambda"
 
   s3_bucket = aws_s3_bucket.lambda_bucket.id
   s3_key    = aws_s3_object.crud_lambda_function.key
