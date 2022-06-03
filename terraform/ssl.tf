@@ -1,6 +1,5 @@
 
 resource "aws_acm_certificate" "alb_cert" {
-  provider          = aws.east1
   domain_name       = local.alb_domain
   validation_method = "DNS"
   lifecycle {
