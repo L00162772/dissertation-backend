@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.14.0"
+      version = ">= 4.17.0"
     }
   }
   required_version = ">= 1.1.9"
@@ -20,16 +20,6 @@ terraform {
 
 
 data "aws_caller_identity" "current" {}
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.17.0"
-    }
-  }
-}
-
 provider "aws" {
   region = var.aws_region
   #profile = "lyit"
