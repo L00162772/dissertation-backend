@@ -31,23 +31,23 @@ exports.handler = async (event, context) => {
       case "GET /health":
         body = "Success";
         break;           
-      case "DELETE /users/{id}":
+      case "DELETE /users/{phoneNumber}":
         await dynamo
           .delete({
             TableName: "users",
             Key: {
-              id: event.pathParameters.id
+              phoneNumber: event.pathParameters.phoneNumber
             }
           })
           .promise();
-        body = `Deleted user ${event.pathParameters.id}`;
+        body = `Deleted user ${event.pathParameters.phoneNumber}`;
         break;
-      case "GET /users/{id}":
+      case "GET /users/{phoneNumber}":
         body = await dynamo
           .get({
             TableName: "users",
             Key: {
-              id: event.pathParameters.id
+              phoneNumber: event.pathParameters.phoneNumber
             }
           })
           .promise();
@@ -67,7 +67,7 @@ exports.handler = async (event, context) => {
             }
           })
           .promise();
-        body = `Post user ${requestPOSTJSON.id}`;
+        body = `Post user ${requestPOSTJSON.phoneNumber}`;
         break;
         case "PUT /users":
           let requestPUTJSON = JSON.parse(event.body);
@@ -81,7 +81,7 @@ exports.handler = async (event, context) => {
               }
             })
             .promise();
-          body = `Put user ${requestPUTJSON.id}`;
+          body = `Put user ${requestPUTJSON.phoneNumber}`;
           break;        
       default:
         throw new Error(`Unsupported route: "${event.routeKey}"`);
