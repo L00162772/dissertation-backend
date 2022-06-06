@@ -63,7 +63,8 @@ exports.handler = async (event, context) => {
             Item: {
               id: requestPOSTJSON.id,
               firstName: requestPOSTJSON.firstName,
-              lastName: requestPOSTJSON.lastName
+              lastName: requestPOSTJSON.lastName,
+              country: requestPOSTJSON.country
             }
           })
           .promise();
@@ -77,7 +78,8 @@ exports.handler = async (event, context) => {
               Item: {
                 id: requestPOSTJSON.id,
                 firstName: requestPUTJSON.firstName,
-                lastName: requestPUTJSON.lastName
+                lastName: requestPUTJSON.lastName,
+                country: requestPUTJSON.country
               }
             })
             .promise();

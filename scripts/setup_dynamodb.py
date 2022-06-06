@@ -77,7 +77,7 @@ if aws_region.lower() != dynamodb_region:
 
     if not replica_already_created:
         print("Replica is not already created - creating")
-        _create_dynamodb_table(region_client, dynamodb_table_name, True)
+        # _create_dynamodb_table(region_client, dynamodb_table_name, True)
         create_global_table_response = client.create_global_table(
             GlobalTableName=dynamodb_table_name,
             ReplicationGroup=[
