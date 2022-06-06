@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: should_destroy_backend
     strategy:
-      max-parallel: 10
+      max-parallel: 1
       matrix:
         aws_region: ["us-east-1", "us-east-2", "eu-west-1", "eu-west-2", "af-south-1", "ap-southeast-2", "ap-south-1", "ca-central-1", "me-south-1", "sa-east-1"]
     steps:
