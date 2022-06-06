@@ -16,7 +16,7 @@ def _create_dynamodb_table(boto3_client, table_name, streams_enabled = False):
         AttributeDefinitions=[
         {
             'AttributeName': 'id',
-            'AttributeType': 'S'
+            'AttributeType': 'N'
         }
     ], 
     KeySchema=[
