@@ -20,6 +20,7 @@ runs:
       - name: Replace AWS Region
         run: |
             sed -i 's/###AWS_REGION###/${{ inputs.aws_region }}/g' terraform/variables.tf
+            sed -i 's/###AWS_REGION###/${{ inputs.aws_region }}/g' terraform/policies/policy.json
             sed -i 's/###TERRAFORM_CLOUD_WORKSPACE###/backend-${{ inputs.aws_region }}/g' terraform/providers.tf
         shell: bash
 
