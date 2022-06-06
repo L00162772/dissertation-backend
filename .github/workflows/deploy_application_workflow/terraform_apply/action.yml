@@ -35,5 +35,5 @@ runs:
 
       - name: Terraform Apply
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cd terraform && terraform apply -auto-approve -replace=archive_file.zip_backend_canary_lambda
+        run: cd terraform && terraform apply -auto-approve -replace=archive_file.zip_backend_canary_lambda -parallelism=20
         shell: bash          
