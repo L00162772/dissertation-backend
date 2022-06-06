@@ -32,22 +32,26 @@ exports.handler = async (event, context) => {
         body = "Success";
         break;           
       case "DELETE /users/{id}":
+        path = event.path
+        id = path.substring(path.lastIndexOf('/') + 1)
         await dynamo
           .delete({
             TableName: "users",
             Key: {
-              id: event.pathParameters.id
+              id: id
             }
           })
           .promise();
-        body = `Deleted user ${event.pathParameters.id}`;
+        body = `Deleted user ${id}`;
         break;
       case "GET /users/{id}":
+        path = event.path
+        id = path.substring(path.lastIndexOf('/') + 1)
         body = await dynamo
           .get({
             TableName: "users",
             Key: {
-              id: event.pathParameters.id
+              id: id
             }
           })
           .promise();
@@ -70,7 +74,7 @@ exports.handler = async (event, context) => {
           .promise();
         body = `Post user ${requestPOSTJSON.id}`;
         break;
-        case "PUT /users":
+        case "PUT /users/{id}":
           let requestPUTJSON = JSON.parse(event.body);
           await dynamo
             .put({
