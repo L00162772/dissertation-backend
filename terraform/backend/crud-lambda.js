@@ -27,24 +27,26 @@ exports.handler = async (event, context) => {
     const routeKey = event.httpMethod + ' ' + event.path
     console.log("routeKey:", routeKey)
     
+    path = event.path
+    id = path.substring(path.lastIndexOf('/') + 1)
+    console.log("id:", id)
+
     switch (routeKey) { 
       case "GET /health":
         body = "Success";
         break;           
-      case "DELETE /users/{id}":
-        path = event.path
-        id = path.substring(path.lastIndexOf('/') + 1)
+      case "DELETE /users/" + id:
         await dynamo
           .delete({
             TableName: "users",
             Key: {
-              id: id
+              id: Number(id)
             }
           })
           .promise();
         body = `Deleted user ${id}`;
         break;
-      case "GET /users/{id}":
+      case "GET /users/" + id:
         path = event.path
         id = path.substring(path.lastIndexOf('/') + 1)
         body = await dynamo
@@ -74,13 +76,13 @@ exports.handler = async (event, context) => {
           .promise();
         body = `Post user ${requestPOSTJSON.id}`;
         break;
-        case "PUT /users/{id}":
+        case "PUT /users/" + id:
           let requestPUTJSON = JSON.parse(event.body);
           await dynamo
             .put({
               TableName: "users",
               Item: {
-                id: requestPOSTJSON.id,
+                id: Number(requestPUTJSON.id),
                 firstName: requestPUTJSON.firstName,
                 lastName: requestPUTJSON.lastName,
                 country: requestPUTJSON.country
@@ -90,7 +92,7 @@ exports.handler = async (event, context) => {
           body = `Put user ${requestPUTJSON.id}`;
           break;        
       default:
-        throw new Error(`Unsupported route: "${event.routeKey}"`);
+        throw new Error(`Unsupported route: "${routeKey}"`);
     }
   } catch (err) {
     statusCode = 400;
