@@ -31,23 +31,23 @@ exports.handler = async (event, context) => {
       case "GET /health":
         body = "Success";
         break;           
-      case "DELETE /users/{phoneNumber}":
+      case "DELETE /users/{id}":
         await dynamo
           .delete({
             TableName: "users",
             Key: {
-              phoneNumber: event.pathParameters.phoneNumber
+              id: event.pathParameters.id
             }
           })
           .promise();
-        body = `Deleted user ${event.pathParameters.phoneNumber}`;
+        body = `Deleted user ${event.pathParameters.id}`;
         break;
-      case "GET /users/{phoneNumber}":
+      case "GET /users/{id}":
         body = await dynamo
           .get({
             TableName: "users",
             Key: {
-              phoneNumber: event.pathParameters.phoneNumber
+              id: event.pathParameters.id
             }
           })
           .promise();
@@ -61,13 +61,13 @@ exports.handler = async (event, context) => {
           .put({
             TableName: "users",
             Item: {
-              phoneNumber: requestPOSTJSON.phoneNumber,
+              id: requestPOSTJSON.id,
               firstName: requestPOSTJSON.firstName,
               lastName: requestPOSTJSON.lastName
             }
           })
           .promise();
-        body = `Post user ${requestPOSTJSON.phoneNumber}`;
+        body = `Post user ${requestPOSTJSON.id}`;
         break;
         case "PUT /users":
           let requestPUTJSON = JSON.parse(event.body);
@@ -75,13 +75,13 @@ exports.handler = async (event, context) => {
             .put({
               TableName: "users",
               Item: {
-                phoneNumber: requestPOSTJSON.phoneNumber,
+                id: requestPOSTJSON.id,
                 firstName: requestPUTJSON.firstName,
                 lastName: requestPUTJSON.lastName
               }
             })
             .promise();
-          body = `Put user ${requestPUTJSON.phoneNumber}`;
+          body = `Put user ${requestPUTJSON.id}`;
           break;        
       default:
         throw new Error(`Unsupported route: "${event.routeKey}"`);

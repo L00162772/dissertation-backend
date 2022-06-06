@@ -15,13 +15,13 @@ def _create_dynamodb_table(boto3_client, table_name, streams_enabled = False):
     create_table_response = boto3_client.create_table(TableName=table_name,
         AttributeDefinitions=[
         {
-            'AttributeName': 'phoneNumber',
+            'AttributeName': 'id',
             'AttributeType': 'S'
         }
     ], 
     KeySchema=[
         {
-            'AttributeName': 'phoneNumber',
+            'AttributeName': 'id',
             'KeyType': 'HASH'
         }
     ],
