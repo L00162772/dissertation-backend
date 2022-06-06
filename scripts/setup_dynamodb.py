@@ -62,21 +62,21 @@ if not table_already_created:
 
 # If not in the dynamodb region - check if a replica exists, if not then create it
 if aws_region.lower() != dynamodb_region:
-    print(f"aws_region:{aws_region}, dynamodb_region:{dynamodb_region}")
+    print(f"1. aws_region:{aws_region}, dynamodb_region:{dynamodb_region}")
     describe_table_response = client.describe_table(TableName=dynamodb_table_name)
-    print(f"describe_table_response: {describe_table_response}")
+    print(f"2. describe_table_response: {describe_table_response}")
     
     replica_already_created = False
     if "Replicas" in describe_table_response['Table']:
         for replica in describe_table_response['Table']['Replicas']:
-            print(f"replica: {replica}")
+            print(f"2.1. replica: {replica}")
             replica_region = replica['RegionName']
             if replica_region.lower() == aws_region.lower():
                 replica_already_created = True
                 break
 
     if not replica_already_created:
-        print("Replica is not already created - creating")
+        print("3. Replica is not already created - creating")
         # _create_dynamodb_table(region_client, dynamodb_table_name, True)
         create_global_table_response = client.create_global_table(
             GlobalTableName=dynamodb_table_name,
@@ -86,6 +86,6 @@ if aws_region.lower() != dynamodb_region:
                 },
             ]
         )
-        print(f"create_global_table_response: {create_global_table_response}")
+        print(f"4. create_global_table_response: {create_global_table_response}")
 
 
