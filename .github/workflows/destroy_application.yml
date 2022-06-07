@@ -16,7 +16,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        aws_region: ["us-east-1", "us-east-2", "eu-west-1"]
+        aws_region: ["us-east-1", "eu-west-1"]
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
