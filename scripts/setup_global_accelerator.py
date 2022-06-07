@@ -174,7 +174,7 @@ if not endpoint_group_found:
         EndpointConfigurations=[
             {
                 'EndpointId': load_balancer_arn,
-                'Weight': 123,
+                'Weight': 10,
                 'ClientIPPreservationEnabled': False
             },
         ],
