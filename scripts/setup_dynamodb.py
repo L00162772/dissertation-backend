@@ -12,7 +12,7 @@ dynamodb_table_name = "users"
 
 print("In setup DynamoDB")
 
-def _create_dynamodb_table(boto3_client, table_name, streams_enabled = False):
+def _create_dynamodb_table(boto3_client, table_name, region, streams_enabled = False):
     print(f"1. _create_dynamodb_table table_name:{table_name}")
     table_already_exists = False
     try:
@@ -46,6 +46,9 @@ def _create_dynamodb_table(boto3_client, table_name, streams_enabled = False):
     },)
     print(f"create_table_response: {create_table_response}")
 
+    _wait_until_table_ready(boto3_client, table_name, region)
+
+def _wait_until_table_ready(boto3_client, table_name, region):         
     table_status = "empty"
     count = 0
     while table_status.lower() != "active" and count < 10:
@@ -60,10 +63,9 @@ def _create_dynamodb_table(boto3_client, table_name, streams_enabled = False):
             print(f"describe_table_response: {describe_table_response}")
             table_status = describe_table_response['Table']['TableStatus']
             print(f"table_status: {table_status}")
-        except:
-            print("Unable to find table")
+        except Exception as e:
+            print(f"Unable to find table. Exception: {e}. region: {region}")
             table_status = "deleted"
-           
 
 client = boto3.client('dynamodb',
                       aws_access_key_id=aws_access_key_id,
@@ -90,63 +92,45 @@ for table_name in list_tables_response['TableNames']:
 
 print(f"base_table_already_created:{base_table_already_created}")
 # If the table is not already created then create it
-if not base_table_already_created:
+if not base_table_already_created and aws_region.lower() == dynamodb_region:
     print("Creating initial table")
-    _create_dynamodb_table(client, dynamodb_table_name, True)
+    _create_dynamodb_table(client, dynamodb_table_name, dynamodb_region, True)
 
 # If not in the dynamodb region - check if a replica exists, if not then create it
 if aws_region.lower() != dynamodb_region:
     print(f"1. aws_region:{aws_region}, dynamodb_region:{dynamodb_region}")
 
-    global_table_exists = False
     replica_already_created = False
     try:
-        describe_global_table_response = client.describe_global_table(GlobalTableName=dynamodb_table_name)
-        print(f"2. describe_global_table_response: {describe_global_table_response}")
-        global_table_exists = True
-        if "ReplicationGroup" in describe_global_table_response['GlobalTableDescription']:
-            print("Here 1")
-            for replication_group in describe_global_table_response['GlobalTableDescription']['ReplicationGroup']:
-                print(f"2.1. replication_group: {replication_group}")
-                replica_region = replication_group['RegionName']
+        describe_table_response = client.describe_table(TableName=dynamodb_table_name)
+        print(f"2. describe_table_response: {describe_table_response}")
+        if "Replicas" in describe_table_response['Table']:
+            for replica in describe_table_response['Table']['Replicas']:
+                print(f"2.1. replica: {replica}")
+                replica_region = replica['RegionName']
                 if replica_region.lower() == aws_region.lower():
                     replica_already_created = True
                     break        
     except:
-        global_table_exists = False
+        replica_already_created = False
 
     print(f"replica_already_created:{replica_already_created}")
-    print(f"global_table_exists:{global_table_exists}")
 
     if not replica_already_created:
-        if not global_table_exists:
-            print("3. Replica is not already created - global table doesnt exist - creating")
-            _create_dynamodb_table(region_client, dynamodb_table_name, True)
-            create_global_table_response = client.create_global_table(
-                GlobalTableName=dynamodb_table_name,
-                ReplicationGroup=[
+            print("3. Replica is not already created - creating")
+            _wait_until_table_ready(client, dynamodb_table_name, aws_region)
+            update_table_response = client.update_table(
+                TableName=dynamodb_table_name,
+                ReplicaUpdates = 
+                [
                     {
-                        'RegionName': dynamodb_region
-                    },
-                    {
-                        'RegionName': aws_region
-                    },
+                    "Create": {
+                        "RegionName": aws_region
+                    }
+                    }
                 ]
             )
-            print(f"4. create_global_table_response: {create_global_table_response}")
-        else:
-            print("3. Replica is not already created - global table does exist- updating global table")
-            _create_dynamodb_table(region_client, dynamodb_table_name, True)
-            update_global_table_response = client.update_global_table(
-                GlobalTableName=dynamodb_table_name,
-                ReplicaUpdates=[
-                    {
-                        'Create': {
-                            'RegionName': aws_region
-                        }
-                    },
-                ]
-            )
-            print(f"4. update_global_table_response: {update_global_table_response}")
+            print(f"4. update_table_response: {update_table_response}")
+
 
 

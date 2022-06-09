@@ -31,6 +31,6 @@ runs:
 
       - name: Provision Global Accelerator
         run: |
-             CHOOSEN_AWS_REGION=${{ inputs.aws_region }} AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} APPLICATION_TYPE=backend python3 scripts/destroy_dynamodb.py
+             AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} APPLICATION_TYPE=backend python3 scripts/destroy_dynamodb.py
         shell: bash
   
