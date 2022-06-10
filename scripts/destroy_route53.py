@@ -75,28 +75,34 @@ for accelerator in list_accelerators_response['Accelerators']:
         list_resource_record_sets_response = route53_client.list_resource_record_sets(HostedZoneId=hosted_zone_id)
         print(f"list_resource_record_sets_response:{list_resource_record_sets_response}")
 
-        change_resource_record_sets_response = route53_client.change_resource_record_sets(
-        HostedZoneId=hosted_zone_id,
-        ChangeBatch={
-            'Changes': [
-                {
-                    'Action': 'DELETE',
-                    'ResourceRecordSet': {
-                        'Name': application_type_dns_name,
-                        'Type': 'A',
-                        'SetIdentifier': 'Simple',
-                        'Region': 'us-east-1',
-                        'AliasTarget': {
-                            'HostedZoneId': global_Accelerator_hosted_zone_id,
-                            'DNSName': global_accelerator_dns_name,
-                            'EvaluateTargetHealth': True
-                        }
+        for resource_record_set in list_resource_record_sets_response['ResourceRecordSets']:
+            print(f"resource_record_set:{resource_record_set}")
+            record_set_name = resource_record_set['Name']
+            print(f"record_set_name:{record_set_name}")
+
+            if record_set_name.lower() == application_type_dns_name.lower():
+                change_resource_record_sets_response = route53_client.change_resource_record_sets(
+                HostedZoneId=hosted_zone_id,
+                ChangeBatch={
+                        'Changes': [
+                            {
+                                'Action': 'DELETE',
+                                'ResourceRecordSet': {
+                                    'Name': application_type_dns_name,
+                                    'Type': 'A',
+                                    'SetIdentifier': 'Simple',
+                                    'Region': 'us-east-1',
+                                    'AliasTarget': {
+                                        'HostedZoneId': global_Accelerator_hosted_zone_id,
+                                        'DNSName': global_accelerator_dns_name,
+                                        'EvaluateTargetHealth': True
+                                    }
+                                }
+                            }, 
+                        ]
                     }
-                }, 
-            ]
-        }
-    )
-        print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
+                )
+                print(f"change_resource_record_sets_response: {change_resource_record_sets_response}")
         break
 
 

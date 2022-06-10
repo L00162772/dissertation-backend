@@ -127,7 +127,7 @@ resource "aws_iam_role_policy_attachment" "canary-policy-attachment" {
 }
 
 resource "aws_cloudwatch_event_rule" "canary-failed-event-rule" {
-  name = "${var.aws_region}-canary-event-rule"
+  name = "${var.aws_region}-${var.application_type}-canary-event-rule"
   event_pattern = jsonencode({
     source = ["aws.synthetics"]
     detail = {
