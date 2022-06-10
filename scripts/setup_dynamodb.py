@@ -51,7 +51,7 @@ def _create_dynamodb_table(boto3_client, table_name, region, streams_enabled = F
 def _wait_until_table_ready(boto3_client, table_name, region):         
     table_status = "empty"
     count = 0
-    while table_status.lower() != "active" and count < 10:
+    while table_status.lower() != "active" and count < 100:
         if count > 0:
             sleep_time = 5 + count
             print(f" Sleeping for {sleep_time} seconds")
