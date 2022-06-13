@@ -4,13 +4,13 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "4.17.0"
+      version = ">= 4.17.0"
     }
   }
   required_version = ">= 1.1.9"
 
   backend "remote" {
-    organization = "dissertation-backend"
+    organization = "dissertation"
 
     workspaces {
       name = "###TERRAFORM_CLOUD_WORKSPACE###"
