@@ -1,0 +1,16 @@
+{
+    "name": "dissertation-backend",
+    "version": "1.0.0",
+    "main": "crud-lambda.js",
+    "dependencies": {
+      "axios": "^0.21.1"
+    },
+    "scripts": {
+      "test": "mocha tests/unit/"
+    },
+    "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^6.1.4"
+    }
+  }
+  
