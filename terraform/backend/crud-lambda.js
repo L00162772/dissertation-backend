@@ -24,11 +24,13 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const routeKey = event.httpMethod + ' ' + event.path
-    console.log("routeKey:", routeKey)
-    
-    path = event.path
-    id = path.substring(path.lastIndexOf('/') + 1)
+    let path = event.path
+    console.log("path 1:" + path)
+    const routeKey = event.httpMethod + ' ' + path
+    console.log("routeKey:", routeKey)    
+    console.log("path 2:", path)
+
+    let id = path.substring(path.lastIndexOf('/') + 1)
     console.log("id:", id)
 
     switch (routeKey) { 
@@ -95,6 +97,7 @@ exports.handler = async (event, context) => {
         throw new Error(`Unsupported route: "${routeKey}"`);
     }
   } catch (err) {
+    console.log("err:", err)
     statusCode = 400;
     body = err.message;
   } finally {

@@ -1,8 +1,34 @@
 name: Deploy Application Workflow
 on: [push]
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Clone the repo
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      # Cache node modules
+      - name: Cache node modules
+        uses: actions/cache@v3  
+        with:
+          path: ./terraform/backend/node_modules
+          key: npm-deps-${{ hashFiles('package-lock') }}
+          restore-keys: |
+            npm-deps-${{ hashFiles('packagelock') }}
+
+      - name: Install Backed App dependencies
+        run: npm install 
+        working-directory: ./terraform/backend     
+
+      # Test the Backend app
+      - name: Test static build
+        run: npm test 
+        working-directory: ./terraform/backend    
+
   should_deploy_backend:
     runs-on: ubuntu-latest
+    needs: build
     environment:
        name: dissertation-backend
     steps:
