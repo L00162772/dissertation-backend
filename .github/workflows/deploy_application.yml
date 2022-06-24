@@ -22,7 +22,7 @@ jobs:
         working-directory: ./terraform/backend     
 
       # Test the Backend app
-      - name: Test static build
+      - name: Unit Test backend
         run: npm test 
         working-directory: ./terraform/backend    
 
