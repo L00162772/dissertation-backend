@@ -1,5 +1,9 @@
 version: 2
 updates:
+  - package-ecosystem: "npm"
+    directory: "/terraform/backend"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
