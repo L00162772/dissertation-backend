@@ -24,7 +24,14 @@ jobs:
       # Test the Backend app
       - name: Unit Test backend
         run: npm test 
-        working-directory: ./terraform/backend    
+        working-directory: ./terraform/backend  
+
+      - name: Unit Test Coverage
+        uses: danhunsaker/clover-reporter-action@v0.2.17-clover
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./terraform/backend            
+          clover-file: ./coverage/clover.xml          
 
   should_deploy_backend:
     runs-on: ubuntu-latest
