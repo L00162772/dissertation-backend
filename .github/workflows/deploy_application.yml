@@ -27,10 +27,11 @@ jobs:
         working-directory: ./terraform/backend  
 
       - name: Unit Test Coverage
-        uses: danhunsaker/clover-reporter-action@v0.2.17-clover
+        id: test-coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}      
-          clover-file: ./terraform/backend/coverage/clover.xml          
+          percentage: "95"
+          filename: ./terraform/backend/coverage/clover.xml                    
 
   should_deploy_backend:
     runs-on: ubuntu-latest
