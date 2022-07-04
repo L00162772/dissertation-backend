@@ -30,7 +30,7 @@ jobs:
         id: test-coverage
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
-          percentage: "95"
+          percentage: "75"
           filename: ./terraform/backend/coverage/clover.xml                    
 
   should_deploy_backend:
