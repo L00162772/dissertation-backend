@@ -30,6 +30,6 @@ runs:
 
       - name: Validate Synthetic Monitor
         run: |
-             CHOOSEN_AWS_REGION=${{ inputs.aws_region }} AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} APPLICATION_TYPE=frontend python3 scripts/validate_synthetic_monitor.py
+             CHOOSEN_AWS_REGION=${{ inputs.aws_region }} AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} APPLICATION_TYPE=backend python3 scripts/validate_synthetic_monitor.py
         shell: bash
   
