@@ -33,7 +33,7 @@ if canary_state is not None:
     time.sleep(60 * 3)
     print("End - sleeping for 3 minutes")
 
-    canary_runs = client.get_canary_runs(Name=synthetic_monitor_name, MaxResults=5)
+    canary_runs = client.get_canary_runs(Name=synthetic_monitor_name, MaxResults=1)
     print(f"canary_runs:{canary_runs}")
 
     passed_count = 0
