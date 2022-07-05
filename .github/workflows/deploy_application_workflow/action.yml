@@ -63,16 +63,24 @@ runs:
         AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
         AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }} 
 
+    - uses: ./.github/workflows/deploy_application_workflow/configure_synthetic_monitor_for_deployment
+      with:
+        aws_region: ${{ matrix.aws_region }}      
+        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}  
+        START_SYNTHETIC_MONITOR: True     
+
+    - uses: ./.github/workflows/deploy_application_workflow/validate_synthetic_monitor
+      with:
+        aws_region: ${{ matrix.aws_region }}      
+        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}  
+        START_SYNTHETIC_MONITOR: True 
+
     - uses: ./.github/workflows/deploy_application_workflow/configure_global_accelerator_for_deployment
       with:
         aws_region: ${{ matrix.aws_region }}      
         AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
         AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}  
         ADD_ACCELERATOR_FOR_REGION: True
-
-    - uses: ./.github/workflows/deploy_application_workflow/configure_synthetic_monitor_for_deployment
-      with:
-        aws_region: ${{ matrix.aws_region }}      
-        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}  
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}  
-        START_SYNTHETIC_MONITOR: True        
+   

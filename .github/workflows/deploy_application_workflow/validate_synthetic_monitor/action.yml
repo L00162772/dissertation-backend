@@ -1,0 +1,35 @@
+name: Validate Synthetic Monitor
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: true
+        type: string
+      AWS_ACCESS_KEY_ID:
+        required: true
+        type: string
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+        type: string   
+runs:
+  using: "composite"
+  steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - name: Install Python Dependencies
+        run: |
+          pip install boto3 
+        shell: bash
+
+      - name: Validate Synthetic Monitor
+        run: |
+             CHOOSEN_AWS_REGION=${{ inputs.aws_region }} AWS_ACCESS_KEY_ID=${{ inputs.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ inputs.AWS_SECRET_ACCESS_KEY }} APPLICATION_TYPE=frontend python3 scripts/validate_synthetic_monitor.py
+        shell: bash
+  
