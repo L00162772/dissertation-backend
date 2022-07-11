@@ -17,7 +17,7 @@ module "lb_security_group" {
 resource "aws_lb" "alb" {
   name               = "${var.application_type}-alb"
   internal           = false
-  load_balancer_type = "application"
+  load_balancer_type = "network"
   subnets            = module.vpc.public_subnets
   security_groups    = [module.lb_security_group.security_group_id]
 }
