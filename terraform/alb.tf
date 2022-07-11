@@ -33,7 +33,7 @@ resource "aws_lb_listener" "alb_http" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   #protocol          = "HTTP"
-  protocol          = "TCP"
+  protocol = "TCP"
 
   # default_action {
   #   type = "redirect"
@@ -54,9 +54,9 @@ resource "aws_lb_listener" "alb_https" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "443"
   #protocol          = "HTTPS"
-  protocol          = "TCP"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.alb_cert.arn
+  protocol        = "TCP"
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_acm_certificate.alb_cert.arn
 
   default_action {
     type             = "forward"
