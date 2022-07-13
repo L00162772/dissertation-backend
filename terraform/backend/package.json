@@ -13,11 +13,11 @@
         "@babel/preset-env": "^7.18.6",
         "@babel/preset-typescript": "^7.18.6",
         "@shelf/jest-dynamodb": "^3.1.2",
-        "@types/jest": "^28.1.4",
+        "@types/jest": "^28.1.5",
         "aws-lambda": "^1.0.7",
         "babel-jest": "^28.1.2",
         "chai": "^4.2.0",
-        "jest": "^28.1.2",
+        "jest": "^28.1.3",
         "mocha": "^10.0.0"
     }
 }
