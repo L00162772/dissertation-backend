@@ -21,6 +21,5 @@ runs:
       - uses: matt-ball/newman-action@master
         with:
           collection: Postman/postman_collection.json
-        shell: bash
 
   
