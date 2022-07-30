@@ -1,0 +1,33 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Dissertation",
+		"_postman_id": "c9872f1e-bac1-094a-eec8-8c34a47f6583",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 205;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://backend.atu-dissertation.com/users",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
