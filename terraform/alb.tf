@@ -4,7 +4,7 @@ data "aws_availability_zones" "available" {
 
 module "lb_security_group" {
   source  = "terraform-aws-modules/security-group/aws//modules/web"
-  version = "4.9.0"
+  version = "4.10.0"
 
   name        = "lb-sg"
   description = "Security group for load balancer with HTTP ports open within VPC"
