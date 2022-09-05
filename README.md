@@ -24,7 +24,7 @@ terraform plan
 ```
 cd terraform
 terraform apply --auto-approve
-```
+``` 
 
 #### Destroy Infrastructure
 ```
