@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "crud-lambda.js",
     "dependencies": {
-        "aws-sdk": "^2.1212.0"
+        "aws-sdk": "^2.1213.0"
     },
     "scripts": {
         "test": "jest --config=jest.config.test.js "
